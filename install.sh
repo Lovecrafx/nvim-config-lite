@@ -50,9 +50,9 @@ elif [ -f /etc/debian_version ]; then
 
     # 安装最新版 Neovim (GitHub 官方 AppImage)
     printf "${BLUE}正在从 GitHub 下载并安装最新的 Neovim (AppImage)...${NC}\n"
-    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
-    $SUDO chmod +x nvim.appimage
-    $SUDO mv nvim.appimage /usr/local/bin/nvim
+    curl -fsSLO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage
+    $SUDO chmod +x nvim-linux-x86_64.appimage
+    $SUDO mv nvim-linux-x86_64.appimage /usr/local/bin/nvim
 
     # 为 fd-find 创建软链接
     if ! command -v fd &> /dev/null && command -v fdfind &> /dev/null; then
