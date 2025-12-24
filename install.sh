@@ -14,6 +14,16 @@ NC='\033[0m' # No Color
 
 printf "${BLUE}开始配置 Neovim 环境...${NC}\n"
 
+# 0. 处理 sudo 逻辑
+if [ "$(id -u)" -eq 0 ]; then
+    SUDO=""
+elif command -v sudo >/dev/null 2>&1; then
+    SUDO="sudo"
+else
+    printf "${RED}错误: 当前非 root 用户且系统中未找到 sudo 命令，请先安装 sudo 或以 root 身份运行。${NC}\n"
+    exit 1
+fi
+
 # 1. 检测操作系统并安装依赖
 OS_TYPE="$(uname)"
 
@@ -26,13 +36,13 @@ if [ "$OS_TYPE" == "Darwin" ]; then
     brew install neovim git ripgrep fd
 elif [ -f /etc/debian_version ]; then
     printf "${BLUE}检测到 Debian/Ubuntu 系统，正在使用 apt 安装依赖...${NC}\n"
-    sudo apt update
-    sudo apt install -y git curl ripgrep fd-find build-essential
+    $SUDO apt update
+    $SUDO apt install -y git curl ripgrep fd-find build-essential
     
     # 安装 Neovim (如果系统版本过旧，建议从 GitHub 下载最新的 .deb)
     if ! command -v nvim &> /dev/null; then
         printf "${BLUE}正在安装 Neovim...${NC}\n"
-        sudo apt install -y neovim
+        $SUDO apt install -y neovim
     fi
 
     # 为 fd-find 创建软链接
