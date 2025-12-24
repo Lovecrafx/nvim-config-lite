@@ -35,15 +35,20 @@ if [ "$OS_TYPE" == "Darwin" ]; then
     fi
     brew install neovim git ripgrep fd
 elif [ -f /etc/debian_version ]; then
-    printf "${BLUE}检测到 Debian/Ubuntu 系统，正在使用 apt 安装依赖...${NC}\n"
+    printf "${BLUE}检测到 Debian/Ubuntu 系统，正在更新软件包列表...${NC}\n"
     $SUDO apt update
     $SUDO apt install -y git curl ripgrep fd-find build-essential
-    
-    # 安装 Neovim (如果系统版本过旧，建议从 GitHub 下载最新的 .deb)
-    if ! command -v nvim &> /dev/null; then
-        printf "${BLUE}正在安装 Neovim...${NC}\n"
-        $SUDO apt install -y neovim
-    fi
+
+    # 安装最新版 Neovim (GitHub 官方预编译二进制)
+    printf "${BLUE}正在从 GitHub 下载并安装最新的 Neovim (v0.10+)...${NC}\n"
+    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+    $SUDO rm -rf /opt/nvim
+    $SUDO mkdir -p /opt/nvim
+    $SUDO tar -C /opt/nvim -xzf nvim-linux-x86_64.tar.gz --strip-components=1
+    $SUDO ln -sf /opt/nvim/bin/nvim /usr/local/bin/nvim
+    rm nvim-linux-x86_64.tar.gz
+
+    # 为 fd-find 创建软链接
 
     # 为 fd-find 创建软链接
     if ! command -v fd &> /dev/null && command -v fdfind &> /dev/null; then
@@ -71,7 +76,7 @@ git clone "$REPO_URL" "$NVIM_CONFIG_DIR"
 
 # 3. 自动安装插件 (Headless 模式)
 printf "${BLUE}正在通过 lazy.nvim 自动同步插件...${NC}\n"
-nvim --headless "+Lazy! sync" +qa
+# 使用 -c 确保命令按顺序执行
+nvim --headless -c "Lazy! sync" -c "qa"
 
-printf "${GREEN}安装与配置完成！${NC}\n"
-printf "${BLUE}提示: 如果你在 Debian 上发现 nvim 版本过低 (建议 >= 0.9)，请考虑从 GitHub 下载最新版本。${NC}\n"
+printf "\n${GREEN}安装与配置完成！${NC}\n"
