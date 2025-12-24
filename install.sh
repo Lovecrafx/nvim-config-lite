@@ -38,20 +38,14 @@ if [ "$OS_TYPE" == "Darwin" ]; then
     fi
     brew install neovim git ripgrep fd
 elif [ -f /etc/debian_version ]; then
-    printf "${BLUE}检测到 Debian/Ubuntu 系统，正在更新软件包列表...${NC}\n"
     $SUDO apt update
-    $SUDO apt install -y git curl ripgrep fd-find build-essential
+    $SUDO apt install -y git curl ripgrep fd-find build-essential libfuse2
 
-    # 安装最新版 Neovim (GitHub 官方预编译二进制)
-    printf "${BLUE}正在从 GitHub 下载并安装最新的 Neovim (v0.10+)...${NC}\n"
-    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
-    $SUDO rm -rf /opt/nvim
-    $SUDO mkdir -p /opt/nvim
-    $SUDO tar -C /opt/nvim -xzf nvim-linux-x86_64.tar.gz --strip-components=1
-    $SUDO ln -sf /opt/nvim/bin/nvim /usr/local/bin/nvim
-    rm nvim-linux-x86_64.tar.gz
-
-    # 为 fd-find 创建软链接
+    # 安装最新版 Neovim (GitHub 官方 AppImage)
+    printf "${BLUE}正在从 GitHub 下载并安装最新的 Neovim (AppImage)...${NC}\n"
+    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+    $SUDO chmod +x nvim.appimage
+    $SUDO mv nvim.appimage /usr/local/bin/nvim
 
     # 为 fd-find 创建软链接
     if ! command -v fd &> /dev/null && command -v fdfind &> /dev/null; then
