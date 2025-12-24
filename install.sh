@@ -67,7 +67,18 @@ elif [ -f /etc/debian_version ]; then
     printf "${BLUE}正在下载 Neovim...${NC}\n"
     curl -fsSL "$DOWNLOAD_URL" -o nvim.appimage
     $SUDO chmod +x nvim.appimage
-    $SUDO mv nvim.appimage /usr/local/bin/nvim
+
+    # 尝试运行并检查是否需要解压 (解决 FUSE 缺失问题)
+    if ! ./nvim.appimage --version &> /dev/null; then
+        printf "${BLUE}检测到环境不支持直接运行 AppImage，正在解压安装...${NC}\n"
+        ./nvim.appimage --appimage-extract > /dev/null
+        $SUDO rm -rf /opt/nvim
+        $SUDO mv squashfs-root /opt/nvim
+        $SUDO ln -sf /opt/nvim/AppRun /usr/local/bin/nvim
+        rm nvim.appimage
+    else
+        $SUDO mv nvim.appimage /usr/local/bin/nvim
+    fi
 
     # 为 fd-find 创建软链接
     if ! command -v fd &> /dev/null && command -v fdfind &> /dev/null; then
