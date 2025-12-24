@@ -2,6 +2,9 @@
 
 # =============================================================================
 # Neovim 自动安装与配置脚本 (支持 macOS 与 Debian/Ubuntu)
+#
+# 安装命令示例 (Debian/Ubuntu):
+# curl -fsSL https://raw.githubusercontent.com/Lovecrafx/nvim-config-lite/main/install.sh | bash
 # =============================================================================
 
 set -e
