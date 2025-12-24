@@ -38,7 +38,7 @@ nvim test.lua
 ```
 
 # git
-- 该项目的主分支名为"master"。
+- 该项目的主分支名为"main"。
 - git commit格式规范请遵守:https://www.conventionalcommits.org/zh-hans/v1.0.0/#%e7%ba%a6%e5%ae%9a%e5%bc%8f%e6%8f%90%e4%ba%a4%e8%a7%84%e8%8c%83
 - git commit 描述部分请使用中文.
 
