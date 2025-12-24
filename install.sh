@@ -38,6 +38,13 @@ if [ "$OS_TYPE" == "Darwin" ]; then
     fi
     brew install neovim git ripgrep fd
 elif [ -f /etc/debian_version ]; then
+    printf "${BLUE}检测到 Debian/Ubuntu 系统，正在清理旧环境并更新软件包列表...${NC}\n"
+    # 卸载可能存在的旧版本
+    if command -v nvim &> /dev/null; then
+        printf "${BLUE}发现已安装的 Neovim，正在卸载...${NC}\n"
+        $SUDO apt remove -y neovim neovim-runtime || true
+        $SUDO rm -f /usr/local/bin/nvim
+    fi
     $SUDO apt update
     $SUDO apt install -y git curl ripgrep fd-find build-essential libfuse2
 
