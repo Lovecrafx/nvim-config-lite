@@ -75,4 +75,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+### Custom ###
+*.log
+.*log
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,linux,windows
