@@ -46,13 +46,28 @@ elif [ -f /etc/debian_version ]; then
         $SUDO rm -f /usr/local/bin/nvim
     fi
     $SUDO apt update
-    $SUDO apt install -y git curl ripgrep fd-find build-essential libfuse2
+    $SUDO apt install -y git curl ripgrep fd-find build-essential libfuse2 bc
 
     # 安装最新版 Neovim (GitHub 官方 AppImage)
-    printf "${BLUE}正在从 GitHub 下载并安装最新的 Neovim (AppImage)...${NC}\n"
-    curl -fsSLO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage
-    $SUDO chmod +x nvim-linux-x86_64.appimage
-    $SUDO mv nvim-linux-x86_64.appimage /usr/local/bin/nvim
+    # 检测 glibc 版本，旧系统 (glibc < 2.31) 使用 neovim-releases 仓库
+    GLIBC_VER=$(ldd --version | head -n1 | grep -oE '[0-9]+\.[0-9]+' | tail -n1)
+    
+    # 默认使用主仓库
+    DOWNLOAD_URL="https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage"
+    
+    if [ -n "$GLIBC_VER" ]; then
+        if [ "$(echo "$GLIBC_VER < 2.31" | bc -l)" -eq 1 ]; then
+            printf "${BLUE}检测到旧版 glibc ($GLIBC_VER)，切换至兼容性仓库下载...${NC}\n"
+            DOWNLOAD_URL="https://github.com/neovim/neovim-releases/releases/latest/download/nvim-linux-x86_64.appimage"
+        else
+            printf "${BLUE}检测到现代 glibc ($GLIBC_VER)，从主仓库下载...${NC}\n"
+        fi
+    fi
+
+    printf "${BLUE}正在下载 Neovim...${NC}\n"
+    curl -fsSL "$DOWNLOAD_URL" -o nvim.appimage
+    $SUDO chmod +x nvim.appimage
+    $SUDO mv nvim.appimage /usr/local/bin/nvim
 
     # 为 fd-find 创建软链接
     if ! command -v fd &> /dev/null && command -v fdfind &> /dev/null; then
