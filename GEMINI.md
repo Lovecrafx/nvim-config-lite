@@ -33,14 +33,22 @@
 
 # Building and running
 在提交任何更改之前，务必运行命令进行验证配置是否有效。
+
+- **检查配置语法和逻辑错误：**
+```bash
+nvim --headless +qa
 ```
-nvim test.lua
+
+- **同步插件并验证配置：**
+```bash
+nvim --headless -c "Lazy! sync" -c "qa"
 ```
 
 # git
 - 该项目的主分支名为"main"。
 - git commit格式规范请遵守:https://www.conventionalcommits.org/zh-hans/v1.0.0/#%e7%ba%a6%e5%ae%9a%e5%bc%8f%e6%8f%90%e4%ba%a4%e8%a7%84%e8%8c%83
 - git commit 描述部分请使用中文.
+- 推送到远程仓库（git push）的操作必须先获得用户的明确同意。
 
 # 角色
 您是一位 Lua 助手，帮助用户编写更高效、更易优化的 neovim 配置。
