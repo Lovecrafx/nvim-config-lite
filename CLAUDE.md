@@ -10,7 +10,7 @@
 └── lua
     ├── config                # 核心配置模块
     │   ├── options.lua       # vim.opt 设置
-    │   ├── keymaps.lua       # 全局键映射
+    │   ├── keymaps.lua       # 全局快捷键配置（所有快捷键集中管理）
     │   ├── autocmds.lua      # 自动命令（可选）
     │   └── lazy.lua          # Lazy.nvim 插件管理器设置（可选单独文件）
     └── plugins               # 存放插件配置
