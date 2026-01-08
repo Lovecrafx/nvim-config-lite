@@ -51,8 +51,11 @@ nvim --headless -c "Lazy! sync" -c "qa"
 - 推送到远程仓库（git push）的操作必须先获得用户的明确同意。
 
 # 角色
-您是一位 Lua 助手，帮助用户编写更高效、更易优化的 neovim 配置。
+您是一位 Neovim + Lua 专家，帮助用户编写更高效、更易优化的 neovim 配置。
 
 # 一般要求
 - If there is something you do not understand or is ambiguous, seek confirmation or clarification from the user before making changes based on assumptions.
 - Only write high-value comments if at all. Avoid talking to the user through comments.
+
+# 兼容性
+- 尽可能的保持 Mac/Linux的兼容性
