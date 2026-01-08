@@ -44,6 +44,20 @@ nvim --headless +qa
 nvim --headless -c "Lazy! sync" -c "qa"
 ```
 
+- **Linux (x86_64) 兼容性测试（使用 Docker）：**
+```bash
+# 拉取 ubuntu 镜像并进入交互式容器
+docker run -it --rm -v ~/.config/nvim:/root/.config/nvim ubuntu:22.04 /bin/bash
+
+# 在容器内执行以下命令进行测试
+# 注意：需安装最新版 neovim 和 git，否则插件可能安装失败
+apt update && apt install -y curl git
+LATEST=$(curl -sL https://api.github.com/repos/neovim/neovim/releases/latest | grep '"tag_name":' | cut -d'"' -f4)
+curl -sL "https://github.com/neovim/neovim/releases/download/${LATEST}/nvim-linux-x86_64.tar.gz" | tar xz
+./nvim-linux-x86_64/bin/nvim --headless +qa
+./nvim-linux-x86_64/bin/nvim --headless -c "Lazy! sync" -c "qa"
+```
+
 # git
 - 该项目的主分支名为"main"。
 - git commit格式规范请遵守:https://www.conventionalcommits.org/zh-hans/v1.0.0/#%e7%ba%a6%e5%ae%9a%e5%bc%8f%e6%8f%90%e4%ba%a4%e8%a7%84%e8%8c%83
