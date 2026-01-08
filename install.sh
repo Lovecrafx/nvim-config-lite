@@ -38,31 +38,70 @@ get_glibc_version() {
 
 # 根据系统环境安装 Neovim 二进制文件 (Linux)
 install_nvim_binary_linux() {
+    # 确保 bc 可用于版本比较
+    if ! command -v bc >/dev/null 2>&1; then
+        log_info "安装 bc 依赖..."
+        $SUDO apt update -qq
+        $SUDO apt install -y bc
+    fi
+
     local glibc_ver
     glibc_ver=$(get_glibc_version)
-    local download_url="https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage"
+    local nvim_version="v0.11.2"
 
+    # Neovim 0.11.2 需要 glibc >= 2.27
     if [ -n "$glibc_ver" ]; then
-        if [ "$(echo \"$glibc_ver < 2.31\" | bc -l)" -eq 1 ]; then
-            log_warn "检测到旧版 glibc ($glibc_ver)，切换至兼容性仓库..."
-            download_url="https://github.com/neovim/neovim-releases/releases/latest/download/nvim-linux-x86_64.appimage"
+        if [ "$(echo "$glibc_ver < 2.27" | bc -l)" -eq 1 ]; then
+            log_error "检测到旧版 glibc ($glibc_ver)，Neovim 0.11.2 需要 glibc >= 2.27。请升级系统后重试。"
         fi
     fi
 
+    # 检测系统架构
+    local arch
+    arch=$(uname -m)
+    case "$arch" in
+        x86_64)
+            arch="x86_64"
+            ;;
+        aarch64|arm64)
+            arch="arm64"
+            ;;
+        *)
+            log_error "不支持的架构: $arch"
+            ;;
+    esac
+
+    local download_url="https://github.com/neovim/neovim/releases/download/${nvim_version}/nvim-linux-${arch}.appimage"
+
+    log_info "将安装 Neovim ${nvim_version} (${arch})"
+
     log_info "正在从 GitHub 下载 Neovim AppImage..."
-    curl -fsSL "$download_url" -o nvim.appimage
+    if ! curl -fsSL --connect-timeout 30 --max-time 300 "$download_url" -o nvim.appimage; then
+        log_error "下载 Neovim 失败，请检查网络连接或手动下载: $download_url"
+    fi
+
     chmod +x nvim.appimage
 
     # 兼容性处理：如果无法直接运行 AppImage (通常因 FUSE 缺失)，则解压运行
-    if ! ./nvim.appimage --version &> /dev/null; then
-        log_warn "环境不支持直接运行 AppImage，正在执行解压安装..."
-        ./nvim.appimage --appimage-extract > /dev/null
-        $SUDO rm -rf /opt/nvim
+    local appimage_error
+    appimage_error=$(./nvim.appimage --version 2>&1) || true
+
+    if [ -n "$appimage_error" ]; then
+        log_warn "AppImage 直接运行失败: $appimage_error"
+        log_info "正在执行解压安装..."
+
+        if ! ./nvim.appimage --appimage-extract > /dev/null 2>&1; then
+            log_error "AppImage 解压失败，文件可能已损坏"
+        fi
+
+        $SUDO rm -rf /opt/nvim 2>/dev/null || true
         $SUDO mv squashfs-root /opt/nvim
         $SUDO ln -sf /opt/nvim/AppRun /usr/local/bin/nvim
-        rm nvim.appimage
+        rm -f nvim.appimage
+        log_info "Neovim 已安装至 /opt/nvim"
     else
         $SUDO mv nvim.appimage /usr/local/bin/nvim
+        log_info "Neovim 已安装至 /usr/local/bin/nvim"
     fi
 }
 
@@ -78,7 +117,14 @@ install_linux() {
     fi
 
     $SUDO apt update
-    $SUDO apt install -y git curl ripgrep fd-find build-essential libfuse2 bc
+
+    # 动态选择 libfuse 包名 (Ubuntu 22.04+ 需要 libfuse2t64)
+    local fuse_pkg="libfuse2"
+    if apt-cache show libfuse2t64 &>/dev/null; then
+        fuse_pkg="libfuse2t64"
+    fi
+
+    $SUDO apt install -y git curl ripgrep fd-find build-essential $fuse_pkg bc
 
     install_nvim_binary_linux
 
