@@ -9,7 +9,12 @@ return {
   dependencies = { "williamboman/mason.nvim" },
   opts = {
     ensure_installed = {
-      "lua-language-server",
+      "lua_ls",
+      "yamlls",
+      "taplo",
+      "jsonls",
+      "bashls",
+      "lemminx",
     },
     automatic_installation = true,
   },

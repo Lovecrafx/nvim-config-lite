@@ -26,6 +26,7 @@ return {
       "yaml-language-server",
       "taplo",
       "lemminx",
+      "vscode-json-languageserver",
     },
   },
 }
