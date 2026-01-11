@@ -87,21 +87,20 @@ nvim --headless -c "Lazy! sync" -c "qa"
 
 ## 项目结构
 
-```
+```text
 ~/.config/nvim
-├── init.lua
-└── lua
-    ├── config/
-    │   ├── options.lua    # vim 选项
-    │   ├── keymaps.lua    # 键位映射
-    │   ├── autocmds.lua   # 自动命令
-    │   └── lazy.lua       # 插件管理器
-    └── plugins/
-        ├── onedark.lua
-        ├── completion.lua
-        ├── indent.lua
-        ├── treesitter.lua
-        └── git.lua
+|-- init.lua
+`-- lua
+    |-- config/
+    |   |-- options.lua    # vim 选项
+    |   |-- keymaps.lua    # 键位映射
+    |   |-- autocmds.lua   # 自动命令
+    |   `-- lazy.lua       # 插件管理器
+    `-- plugins/
+        |-- onedark.lua    # 主题配色（onedark）
+        |-- indent.lua     # 缩进线显示（indent-blankline/ibl）
+        |-- treesitter.lua # 语法高亮（nvim-treesitter）
+        `-- git.lua        # Git 标记与 blame（gitsigns）
 ```
 
 ## 验证配置
