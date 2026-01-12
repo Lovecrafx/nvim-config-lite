@@ -127,5 +127,9 @@ return {
 
     -- luasnip 配置
     require("luasnip.loaders.from_snipmate").lazy_load()
+
+    -- nvim-autopairs 集成
+    local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+    cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
   end,
 }
