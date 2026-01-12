@@ -26,5 +26,5 @@ keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 -- 取消搜索高亮
 keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "取消搜索高亮" })
 
--- 代码格式化
-keymap.set("n", "<leader>f", ":Format<CR>", { desc = "格式化代码" })
+-- 代码格式化 (由 LSP 提供)
+keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "格式化代码" })
