@@ -14,22 +14,18 @@
     │   ├── autocmds.lua      # 自动命令（可选）
     │   └── lazy.lua          # Lazy.nvim 插件管理器设置（可选单独文件）
     └── plugins               # 存放插件配置
+        ├── onedark.lua       # 主题插件
+        ├── treesitter.lua    # 语法高亮插件
+        ├── indent.lua        # 自动缩进对齐插件
+        ├── autopairs.lua     # 符号补全插件
+        ├── git.lua           # Git 集成插件
+        └── lsp               # LSP 语言服务器支持
+            ├── init.lua      # LSP 基础配置
+            ├── cmp.lua       # 代码补全引擎 (nvim-cmp)
+            ├── lspconfig.lua # LSP 配置 (lspconfig)
+            └── mason.lua     # LSP 服务器管理 (mason)
 ```
 
-
-# 个人自定义插件
-## 注释
-> 每个插件的开头都要有注释,具体要求如下
-> **插件名称**
-> **插件仓库地址**
-> **插件功能说明**
-
-## 插件
-1. onedark 主题插件
-2. 符号补全插件
-3. 自动缩进对齐插件
-4. 语法高亮插件
-  - 高亮语言(Python｜Java｜JavaScript｜TypeScript｜HTML｜CSS｜Vue｜Shell｜SQL｜YAML｜TOML)
 
 # Building and running
 在提交任何更改之前，务必运行命令进行验证配置是否有效。

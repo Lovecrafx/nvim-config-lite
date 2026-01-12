@@ -70,10 +70,13 @@ nvim --headless -c "Lazy! sync" -c "qa"
 | 插件 | 功能 |
 |------|------|
 | onedark | 主题配色 |
-| nvim-autopairs | 自动补全符号 |
+| nvim-autopairs | 自动补全括号、引号等配对符号 |
 | indent-blankline | 缩进线显示 |
 | nvim-treesitter | 语法高亮 |
 | gitsigns | Git 状态与 blame |
+| nvim-cmp | 代码补全引擎 |
+| nvim-lspconfig | LSP 语言服务器配置 |
+| mason | LSP 服务器管理 |
 
 ## 快捷键
 
@@ -81,8 +84,9 @@ nvim --headless -c "Lazy! sync" -c "qa"
 |--------|------|
 | `<leader>w` | 保存文件 |
 | `<leader>q` | 退出 |
-| `<C-h/j/k/l>` | 切换窗口 |
 | `<leader>nh` | 取消搜索高亮 |
+| `<leader>f` | 格式化代码 |
+| `<C-h/j/k/l>` | 切换窗口 |
 | `J/K` (visual) | 移动选中行 |
 
 ## 项目结构
@@ -98,9 +102,15 @@ nvim --headless -c "Lazy! sync" -c "qa"
     |   `-- lazy.lua       # 插件管理器
     `-- plugins/
         |-- onedark.lua    # 主题配色（onedark）
-        |-- indent.lua     # 缩进线显示（indent-blankline/ibl）
         |-- treesitter.lua # 语法高亮（nvim-treesitter）
-        `-- git.lua        # Git 标记与 blame（gitsigns）
+        |-- indent.lua     # 缩进线显示（indent-blankline/ibl）
+        |-- autopairs.lua  # 符号补全（nvim-autopairs）
+        |-- git.lua        # Git 标记与 blame（gitsigns）
+        `-- lsp/
+            |-- init.lua      # LSP 基础配置
+            |-- cmp.lua       # 代码补全引擎（nvim-cmp）
+            |-- lspconfig.lua # LSP 配置（lspconfig）
+            `-- mason.lua     # LSP 服务器管理（mason）
 ```
 
 ## 验证配置
