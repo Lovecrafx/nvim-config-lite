@@ -32,3 +32,7 @@ keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "格式化代码" })
 -- 注释/取消注释
 keymap.set("n", "<leader>/", "gcc", { desc = "注释/取消注释当前行", remap = true })
 keymap.set("v", "<leader>/", "gc", { desc = "注释/取消注释选中内容", remap = true })
+
+-- 鼠标选择文本后自动复制到系统剪贴板
+keymap.set("x", "<LeftRelease>", '"*ygv', { desc = "鼠标释放时复制到剪贴板" })
+keymap.set("x", "<2-LeftRelease>", '"*ygv', { desc = "双击选择时复制到剪贴板" })
