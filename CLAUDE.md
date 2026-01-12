@@ -40,11 +40,14 @@ nvim --headless +qa
 nvim --headless -c "Lazy! sync" -c "qa"
 ```
 
-# git
-- 该项目的主分支名为"main"。
-- git commit格式规范请遵守:https://www.conventionalcommits.org/zh-hans/v1.0.0/#%e7%ba%a6%e5%ae%9a%e5%bc%8f%e6%8f%90%e4%ba%a4%e8%a7%84%e8%8c%83
-- git commit 描述部分请使用中文.
-- 推送到远程仓库（git push）的操作必须先获得用户的明确同意。
+## Git 规范
+
+| 规则 | 说明 |
+|------|------|
+| 主分支 | `main` |
+| 提交格式 | 遵循 [Conventional Commits](https://www.conventionalcommits.org/zh-hans/v1.0.0/) |
+| 提交描述 | 使用中文 |
+| 代码推送 | 需用户明确同意后执行 |
 
 # 角色
 您是一位 Neovim + Lua 专家，帮助用户编写更高效、更易优化的 neovim 配置。
