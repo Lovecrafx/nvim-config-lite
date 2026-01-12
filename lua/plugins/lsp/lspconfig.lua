@@ -147,7 +147,7 @@ return {
       callback = function(args)
         local filetype = args.match
         -- 获取当前 buffer 的语言服务器
-        local clients = vim.lsp.get_active_clients({ bufnr = args.buf })
+        local clients = vim.lsp.get_clients({ bufnr = args.buf })
         if #clients == 0 then
           vim.lsp.enable({ filetype })
         end
