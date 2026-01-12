@@ -26,6 +26,7 @@ opt.smartcase = true
 -- 其它设置
 opt.mouse = "a"
 opt.clipboard = "unnamedplus"
+vim.g.clipboard = "osc52"
 opt.completeopt = { "menu", "menuone", "noselect" }
 opt.splitright = true
 opt.splitbelow = true
