@@ -2,47 +2,33 @@
 
 基于 Lua 和 Lazy.nvim 的 Neovim 配置，支持 macOS 与 Linux。
 
-## 快速安装 (Linux)
+## 一键安装
 
-### 前置要求
-- Debian/Ubuntu 系统
-- 普通用户（需有 sudo 权限）或 root 用户
+```bash
+curl -fsSL https://raw.githubusercontent.com/Lovecrafx/nvim-config-lite/main/install.sh | bash
+```
 
-### 安装步骤
+> 支持 macOS 与 Linux。安装完成后运行 `nvim` 启动。
 
-1. **下载安装脚本**：
-   ```bash
-   curl -fsSL https://raw.githubusercontent.com/Lovecrafx/nvim-config-lite/main/install.sh -o install.sh
-   ```
+## 一键更新
 
-2. **执行安装**：
-   ```bash
-   chmod +x install.sh
-   ./install.sh
-   ```
+```bash
+cd ~/.config/nvim && ./update.sh
+```
 
-3. **启动 Neovim**：
-   ```bash
-   nvim
-   ```
+或远程执行：
 
-### 安装过程说明
+```bash
+curl -fsSL https://raw.githubusercontent.com/Lovecrafx/nvim-config-lite/main/update.sh | bash
+```
 
-脚本会自动执行以下操作：
+### 更新内容
 
-| 步骤 | 操作 |
+| 操作 | 说明 |
 |------|------|
-| 1 | 检查 sudo 权限 |
-| 2 | 安装系统依赖（git、curl、ripgrep、fd-find、build-essential、bc） |
-| 3 | 下载并安装 Neovim v0.11.2（自动适配 x86_64/arm64 架构） |
-| 4 | 处理 AppImage 兼容性问题（如系统无 FUSE 则自动解压） |
-| 5 | 克隆配置仓库至 `~/.config/nvim` |
-| 6 | 自动同步所有插件 |
-
-### 系统要求
-
-- **glibc 版本**：≥ 2.27（Neovim 0.11.2 要求）
-- **支持架构**：x86_64、arm64
+| `git pull` | 获取最新配置变更 |
+| `Lazy! sync` | 同步/更新所有插件 |
+| `nvim --headless +qa` | 验证配置语法 |
 
 ## 手动安装
 
