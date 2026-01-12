@@ -28,3 +28,7 @@ keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "取消搜索高亮" })
 
 -- 代码格式化 (由 LSP 提供)
 keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "格式化代码" })
+
+-- 注释/取消注释
+keymap.set("n", "<leader>/", "gcc", { desc = "注释/取消注释当前行", remap = true })
+keymap.set("v", "<leader>/", "gc", { desc = "注释/取消注释选中内容", remap = true })
