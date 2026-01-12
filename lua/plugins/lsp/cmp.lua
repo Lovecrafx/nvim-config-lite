@@ -17,6 +17,7 @@ return {
   config = function()
     local cmp = require("cmp")
     local luasnip = require("luasnip")
+    local kind_icons = require("config.kind_icons")
 
     -- 补全配置
     cmp.setup({
@@ -64,34 +65,7 @@ return {
       formatting = {
         fields = { "kind", "abbr", "menu" },
         format = function(entry, vim_item)
-          local kind_icons = {
-            Text = "✦",
-            Method = "f",
-            Function = "ƒ",
-            Constructor = "⚙",
-            Field = "◇",
-            Variable = "▣",
-            Class = "⚛",
-            Interface = "◈",
-            Module = "📦",
-            Property = "▢",
-            Unit = "⚡",
-            Value = "⚔",
-            Enum = "⇄",
-            Keyword = "⚑",
-            Snippet = "✂️",
-            Color = "✏",
-            File = "📄",
-            Reference = "📑",
-            Folder = "📂",
-            EnumMember = "≡",
-            Constant = "☌",
-            Struct = "⛓",
-            Event = "⋈",
-            Operator = "∘",
-            TypeParameter = "⏣",
-          }
-          vim_item.kind = kind_icons[vim_item.kind] .. " " .. vim_item.kind
+          vim_item.kind = (kind_icons[vim_item.kind] or "") .. " " .. vim_item.kind
           vim_item.menu = ({
             nvim_lsp = "[LSP]",
             buffer = "[Buffer]",

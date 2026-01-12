@@ -1,0 +1,30 @@
+-- 代码补全类型图标配置
+-- 用于 nvim-cmp 格式化
+
+return {
+  Text = "✦",
+  Method = "f",
+  Function = "ƒ",
+  Constructor = "⚙",
+  Field = "◇",
+  Variable = "▣",
+  Class = "⚛",
+  Interface = "◈",
+  Module = "📦",
+  Property = "▢",
+  Unit = "⚡",
+  Value = "⚔",
+  Enum = "⇄",
+  Keyword = "⚑",
+  Snippet = "✂️",
+  Color = "✏",
+  File = "📄",
+  Reference = "📑",
+  Folder = "📂",
+  EnumMember = "≡",
+  Constant = "☌",
+  Struct = "⛓",
+  Event = "⋈",
+  Operator = "∘",
+  TypeParameter = "⏣",
+}

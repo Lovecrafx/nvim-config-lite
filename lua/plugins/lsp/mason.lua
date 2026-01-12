@@ -22,19 +22,10 @@ return {
       },
     })
 
+    local servers = require("config.servers")
+
     require("mason-lspconfig").setup({
-      ensure_installed = {
-        -- lspconfig 服务器名 (mason-lspconfig 会自动映射到 mason 包名)
-        "lua_ls",   -- Lua
-        "jsonls",   -- JSON
-        "yamlls",   -- YAML
-        "bashls",   -- Bash
-        "pyright",  -- Python
-        "ts_ls",    -- TypeScript/JavaScript
-        "vue_ls",   -- Vue
-        "html",     -- HTML
-        "cssls",    -- CSS
-      },
+      ensure_installed = servers,
       automatic_installation = true,
     })
   end,

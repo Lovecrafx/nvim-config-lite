@@ -15,6 +15,7 @@ return {
   },
   config = function()
     local cmp_lsp = require("cmp_nvim_lsp")
+    local servers = require("config.servers")
 
     -- LSP 能力补全
     local capabilities = vim.tbl_deep_extend(
@@ -44,10 +45,18 @@ return {
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
     end
 
-    -- 注册语言服务器配置
-    vim.lsp.config("lua_ls", {
-      capabilities = capabilities,
-      settings = {
+    -- LSP 配置工厂函数
+    local function make_lsp_config(name, settings)
+      local config = { capabilities = capabilities }
+      if settings then
+        config.settings = settings
+      end
+      return config
+    end
+
+    -- 各语言服务器配置
+    local lsp_configs = {
+      lua_ls = make_lsp_config("lua_ls", {
         Lua = {
           diagnostics = { globals = { "vim" } },
           workspace = {
@@ -58,98 +67,59 @@ return {
           },
           format = { enable = false },
         },
-      },
-    })
-
-    vim.lsp.config("jsonls", {
-      capabilities = capabilities,
-      settings = {
+      }),
+      jsonls = make_lsp_config("jsonls", {
         json = {
           schemas = require("schemastore").json.schemas(),
           validate = { enable = true },
         },
-      },
-    })
-
-    vim.lsp.config("yamlls", {
-      capabilities = capabilities,
-      settings = {
+      }),
+      yamlls = make_lsp_config("yamlls", {
         yaml = {
           schemas = require("schemastore").yaml.schemas(),
           format = { enable = false },
         },
-      },
-    })
-
-    vim.lsp.config("bashls", {
-      capabilities = capabilities,
-      settings = {
+      }),
+      bashls = make_lsp_config("bashls", {
         bashIde = {
           globPattern = "*@(.sh|.bash|.bashrc|.bash_profile)",
         },
-      },
-    })
-
-    vim.lsp.config("pyright", {
-      capabilities = capabilities,
-      settings = {
+      }),
+      pyright = make_lsp_config("pyright", {
         python = {
           analysis = {
             typeCheckingMode = "basic",
             autoImportCompletions = true,
           },
         },
-      },
-    })
-
-    vim.lsp.config("ts_ls", {
-      capabilities = capabilities,
-      settings = {
+      }),
+      ts_ls = make_lsp_config("ts_ls", {
         typescript = { format = { enable = false } },
         javascript = { format = { enable = false } },
-      },
-    })
-
-    vim.lsp.config("vue_ls", {
-      capabilities = capabilities,
-      settings = {
+      }),
+      vue_ls = make_lsp_config("vue_ls", {
         vue = { format = { enable = false } },
-      },
-    })
-
-    vim.lsp.config("html", {
-      capabilities = capabilities,
-      settings = {
+      }),
+      html = make_lsp_config("html", {
         html = { format = { enable = false } },
-      },
-    })
+      }),
+      cssls = make_lsp_config("cssls"),
+    }
 
-    vim.lsp.config("cssls", {
-      capabilities = capabilities,
-    })
+    -- 注册所有 LSP 配置
+    for name, config in pairs(lsp_configs) do
+      vim.lsp.config(name, config)
+    end
 
-    -- 根据 filetype 启用语言服务器
-    vim.lsp.enable({
-      "lua_ls",
-      "jsonls",
-      "yamlls",
-      "bashls",
-      "pyright",
-      "ts_ls",
-      "vue_ls",
-      "html",
-      "cssls",
-    })
+    -- 启用语言服务器
+    vim.lsp.enable(servers)
 
     -- 确保进入文件类型时 LSP 已启动
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "*",
       callback = function(args)
-        local filetype = args.match
-        -- 获取当前 buffer 的语言服务器
-        local clients = vim.lsp.get_clients({ bufnr = args.buf })
-        if #clients == 0 then
-          vim.lsp.enable({ filetype })
+        if #vim.lsp.get_clients({ bufnr = args.buf }) == 0 then
+          vim.lsp.enable({ args.match })
         end
       end,
     })
@@ -162,7 +132,6 @@ return {
     vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "上一个诊断" })
     vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "下一个诊断" })
     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "代码操作" })
-    vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "格式化代码" })
     vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "重命名" })
   end,
 }
