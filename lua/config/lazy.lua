@@ -26,5 +26,12 @@ require("lazy").setup({
     version = false,
   },
   install = { colorscheme = { "onedark" } },
-  checker = { enabled = true },
+  checker = {
+    enabled = true,
+    notify = false,
+    frequency = 7,
+  },
+  change_detection = {
+    notify = true,
+  },
 })
