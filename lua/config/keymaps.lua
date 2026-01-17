@@ -29,9 +29,15 @@ keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "取消搜索高亮" })
 -- 代码格式化 (由 LSP 提供)
 keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "格式化代码" })
 
--- 注释/取消注释
-keymap.set("n", "<leader>/", "gcc", { desc = "注释/取消注释当前行", remap = true })
-keymap.set("v", "<leader>/", "gc", { desc = "注释/取消注释选中内容", remap = true })
+-- LSP 快捷键
+keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "跳转到定义" })
+keymap.set("n", "gr", vim.lsp.buf.references, { desc = "查找引用" })
+keymap.set("n", "K", vim.lsp.buf.hover, { desc = "悬停信息" })
+keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "显示诊断信息" })
+keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "上一个诊断" })
+keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "下一个诊断" })
+keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "代码操作" })
+keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "重命名" })
 
 -- 鼠标选择文本后自动复制到系统剪贴板
 keymap.set("x", "<LeftRelease>", '"*ygv', { desc = "鼠标释放时复制到剪贴板" })

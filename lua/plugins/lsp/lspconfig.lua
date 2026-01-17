@@ -123,15 +123,5 @@ return {
         end
       end,
     })
-
-    -- LSP 快捷键
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "跳转到定义" })
-    vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "查找引用" })
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "悬停信息" })
-    vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "显示诊断信息" })
-    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "上一个诊断" })
-    vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "下一个诊断" })
-    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "代码操作" })
-    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "重命名" })
   end,
 }
